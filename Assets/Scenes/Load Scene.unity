@@ -1193,6 +1193,7 @@ MonoBehaviour:
     RawGuidValue: d5cf11e6a4cca48d38687a8e34405049
   _playerHooliganPrefab:
     RawGuidValue: 02984cbc431464bd6b01a62b2a777c42
+  prefabJoysStick: {fileID: 6322928025570689386, guid: 34e3542894af649529b768f1dc46a755, type: 3}
 --- !u!1 &1863783723
 GameObject:
   m_ObjectHideFlags: 0

@@ -70,4 +70,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99dde9708cb0b4eb6851ab9cd95fdc05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menuSceneName: AsteroidsSimple-Menu
+  _menuSceneName: AsteroidGame/Scenes/AsteroidsSimple-Menu

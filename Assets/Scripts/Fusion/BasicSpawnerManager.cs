@@ -10,6 +10,7 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
 {
     [SerializeField] private NetworkPrefabRef _playerPolicemanPrefab;
     [SerializeField] private NetworkPrefabRef _playerHooliganPrefab;
+    private OnScreenStick prefabJoysStick;
 
     private NetworkRunner _runner;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
@@ -22,7 +23,7 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
     public void Startup(NetworkService networkService)
     {
         Debug.Log("Data manager ProcessStartInfo...");
-
+        
         Status = ManagerStatus.Started;
     }
     
@@ -74,12 +75,12 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
     {
         if (_runner == null)
         {
-            if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
+            if (GUI.Button(new Rect(0, 0, 400, 100), "Host"))
             {
                 StartGame(GameMode.Host);
             }
 
-            if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
+            if (GUI.Button(new Rect(0, 40, 400, 100), "Join"))
             {
                 StartGame(GameMode.Client);
             }
@@ -132,6 +133,7 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
         }
     }
 
+    private Vector3 _directionFromJoystick;
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
@@ -150,17 +152,27 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
 
         if (_mouseButton0)
         {
+            Debug.Log("Click: " + _mouseButton0);
             data.buttons |= NetworkInputData.MOUSEBUTTON1;
         }
         _mouseButton0 = false;
 
         if (Input.GetKey(KeyCode.F))
         {
+            Debug.Log("Click: " + KeyCode.F);
             data.buttons |= NetworkInputData.MOUSEBUTTON2;
         }
         _mouseButton1 = false;
         
+        // prefabJoysStick.SetCallback(ChangeDirection);
+        // data.direction += _directionFromJoystick;
+        
         input.Set(data);
+    }
+
+    private void ChangeDirection(Vector3 obj)
+    {
+        _directionFromJoystick = obj;
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
