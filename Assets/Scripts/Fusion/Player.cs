@@ -39,13 +39,13 @@ public class Player : NetworkBehaviour
         _forward = transform.forward;
     }
 
-    // private void Update()
-    // {
-    //     if (Object.HasInputAuthority && Input.GetKeyDown(KeyCode.R))
-    //     {
-    //         RPC_SendMessage("Hey Mate!");
-    //     }
-    // }
+    private void Update()
+    {
+        if (Object.HasInputAuthority && Input.GetKeyDown(KeyCode.R))
+        {
+            RPC_SendMessage("Hey Mate!");
+        }
+    }
 
     /**
      * That is RPC call
@@ -63,31 +63,32 @@ public class Player : NetworkBehaviour
         _messages.text += message;
     }
 
-    /**
-     * FixedUpdateNetwork gets called on every simulation tick.
-     * This can happen multiple times per rendering frame
-     * as Fusion applies an older confirmed network state
-     * and then re-simulates from that tick
-     * all the way up to the currently (predicted) local tick.
-    public override void FixedUpdateNetwork()
-    {
-        if (GetInput(out NetworkInputData data))
-        {
-            data.direction.Normalize();
-            _cc.Move(5 * data.direction * Runner.DeltaTime);
+     /**
+      * FixedUpdateNetwork gets called on every simulation tick.
+      * This can happen multiple times per rendering frame
+      * as Fusion applies an older confirmed network state
+      * and then re-simulates from that tick
+      * all the way up to the currently (predicted) local tick.
+      */
+     public override void FixedUpdateNetwork()
+     {
+         if (GetInput(out NetworkInputData data))
+         {
+             data.direction.Normalize();
+             _cc.Move(5 * data.direction * Runner.DeltaTime);
 
-            SpawnBall(data);
-        }
-    }
-    
-    /**
-     * Run after all simulations
-     *
-     * This is done in Render() rather than Update()
-     * because it is guaranteed to run after FixedUpdateNetwork()
-     * and it uses Time.deltaTime rather than Runner.DeltaTime
-     * because it is running in Unity's render loop and not as part of the Fusion simulation.
-     */
+             SpawnBall(data);
+         }
+     }
+     
+     /**
+      * Run after all simulations
+      *
+      * This is done in Render() rather than Update()
+      * because it is guaranteed to run after FixedUpdateNetwork()
+      * and it uses Time.deltaTime rather than Runner.DeltaTime
+      * because it is running in Unity's render loop and not as part of the Fusion simulation.
+      */
     public override void Render()
     {
         Material.color = Color.Lerp(Material.color, Color.red, Time.deltaTime );

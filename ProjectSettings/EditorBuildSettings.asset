@@ -5,13 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Load Scene.unity
     guid: 5aeb92232b9f34df9b10b5058edd00cd
   - enabled: 0
     path: Assets/Scenes/Level 1.unity
-    guid: a6e25cb79433d4773a87f5031eddcdda
-  - enabled: 1
-    path: Assets/Scenes/Level 1.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/AsteroidGame/Scenes/AsteroidsSimple-Menu.unity
+    guid: 30c3619b8e7ad4eb88044f9974a5c741
+  - enabled: 1
+    path: Assets/AsteroidGame/Scenes/AsteroidsSimple-Game.unity
+    guid: c966d8d38fbf6438187b9fd8afb2158d
   m_configObjects: {}
