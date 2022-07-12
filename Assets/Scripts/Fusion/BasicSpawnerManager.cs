@@ -10,7 +10,7 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
 {
     [SerializeField] private NetworkPrefabRef _playerPolicemanPrefab;
     [SerializeField] private NetworkPrefabRef _playerHooliganPrefab;
-    
+
     private OnScreenStick _onScreenStick;
 
     private NetworkRunner _runner;
@@ -20,31 +20,33 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
 
     private bool _mouseButton0;
     private bool _mouseButton1;
-    
+
     /**
      * Start ONLY after JoysticManager, because we use it
      */
     public void Startup(NetworkService networkService)
     {
         Debug.Log("Data manager ProcessStartInfo...");
-        
+
         _onScreenStick = FindObjectOfType<OnScreenStick>();
         Status = ManagerStatus.Started;
     }
-    
+
     int TapCount;
     public float MaxDubbleTapTime = .2f;
     float NewTime;
-    
-    void Start () {
+
+    void Start()
+    {
         TapCount = 0;
     }
-    
+
     private void Update()
     {
-        // _mouseButton0 = _mouseButton0 | Input.GetMouseButton(0);
-        // _mouseButton1 = _mouseButton1 | Input.GetMouseButton(1);
-
+#if UNITY_EDITOR
+        _mouseButton0 = _mouseButton0 | Input.GetMouseButton(0);
+        _mouseButton1 = _mouseButton1 | Input.GetMouseButton(1);
+#else
         if (Input.touchCount > 0 && Input.GetTouch(0).phase != TouchPhase.Moved && Input.touchCount == 1) {
             Touch touch = Input.GetTouch(0);
              
@@ -57,24 +59,24 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
                 NewTime = Time.time + MaxDubbleTapTime;
             }else if(TapCount == 2 && Time.time <= NewTime){
                  
-                //Whatever you want after a dubble tap    
+                //Whatever you want after a double tap    
                 print ("Double tap");
+                _mouseButton1 = true;
                 TapCount = 0;
             }
  
         }
         if (Time.time > NewTime) {
-            if (TapCount > 1)
-            {
-                _mouseButton1 = true;
-            } else if (TapCount == 1)
+           
+            if (TapCount == 1)
             {
                 _mouseButton0 = true;
             }
             TapCount = 0;
         }
+#endif
     }
-    
+
     async void StartGame(GameMode gameMode)
     {
         /*
@@ -100,11 +102,10 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
                 sessionProperties["playerType"] = "hooligan";
                 break;
         }
-        
+
         await _runner.StartGame(new StartGameArgs()
         {
-           
-           SessionProperties = sessionProperties,
+            SessionProperties = sessionProperties,
             GameMode = gameMode,
             SessionName = "TestRoom",
             Scene = SceneManager.GetActiveScene().buildIndex,
@@ -136,7 +137,7 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
         Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.DefaultPlayers) * 3, 1, 0);
         // todo spawn base on param
         NetworkObject networkPlayerObject;
-        if (runner.SessionInfo.Properties != null 
+        if (runner.SessionInfo.Properties != null
             && runner.SessionInfo.Properties.ContainsKey("playerType"))
         {
             if (runner.SessionInfo.Properties["playerType"].PropertyValue.Equals("policeman"))
@@ -155,7 +156,7 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
              */
             networkPlayerObject = runner.Spawn(_playerHooliganPrefab, spawnPosition, Quaternion.identity, player);
         }
-        
+
         /*
          * Keep track of the player avatars so we can remove it when they disconnect
          */
@@ -175,6 +176,7 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
     }
 
     private Vector3 _directionFromJoystick;
+
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
@@ -196,17 +198,19 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
             Debug.Log("Click: " + _mouseButton0);
             data.buttons |= NetworkInputData.MOUSEBUTTON1;
         }
+
         _mouseButton0 = false;
 
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKey(KeyCode.F) || _mouseButton1)
         {
             Debug.Log("Click: " + KeyCode.F);
             data.buttons |= NetworkInputData.MOUSEBUTTON2;
         }
+
         _mouseButton1 = false;
-        
+
         data.direction += _onScreenStick.Direction;
-        
+
         input.Set(data);
     }
 
@@ -279,5 +283,4 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
     {
         Debug.Log("OnSceneLoadStart");
     }
-
 }

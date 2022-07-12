@@ -26,9 +26,16 @@ public class LocalInputPoller : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         SpaceshipInput localInput = new SpaceshipInput();
-        
         localInput.HorizontalInput = Input.GetAxis(AXIS_HORIZONTAL);
         localInput.VerticalInput = Input.GetAxis(AXIS_VERTICAL);
+        
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+        {
+            Touch touch = Input.touches[0];
+            localInput.HorizontalInput = touch.deltaPosition.x;
+            localInput.VerticalInput = touch.deltaPosition.y;
+        }
+
         localInput.Buttons.Set(SpaceshipButtons.Fire, Input.GetButton(BUTTON_FIRE1));
 
         input.Set(localInput);
