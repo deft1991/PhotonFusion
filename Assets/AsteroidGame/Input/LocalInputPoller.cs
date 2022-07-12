@@ -12,10 +12,17 @@ public class LocalInputPoller : MonoBehaviour, INetworkRunnerCallbacks
     private const string BUTTON_FIRE1 = "Fire1";
     private const string BUTTON_JUMP = "Jump"; // Can be used as an alternative fire button to shoot with SPACE
     
+    private OnScreenStick _onScreenStick;
+    
     // The INetworkRunnerCallbacks of this LocalInputPoller are automatically detected
     // because the script is located on the same object as the NetworkRunner and
     // NetworkRunnerCallbacks scripts.
-    
+
+    private void Awake()
+    {
+        _onScreenStick = FindObjectOfType<OnScreenStick>();
+    }
+
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         SpaceshipInput localInput = new SpaceshipInput();

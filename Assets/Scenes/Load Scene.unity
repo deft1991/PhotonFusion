@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44407046, g: 0.49331486, b: 0.57238823, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1041,6 +1041,7 @@ GameObject:
   - component: {fileID: 1556712379}
   - component: {fileID: 1556712389}
   - component: {fileID: 1556712388}
+  - component: {fileID: 1556712390}
   m_Layer: 0
   m_Name: Game Managers
   m_TagString: Untagged
@@ -1193,7 +1194,20 @@ MonoBehaviour:
     RawGuidValue: d5cf11e6a4cca48d38687a8e34405049
   _playerHooliganPrefab:
     RawGuidValue: 02984cbc431464bd6b01a62b2a777c42
-  prefabJoysStick: {fileID: 6322928025570689386, guid: 34e3542894af649529b768f1dc46a755, type: 3}
+  MaxDubbleTapTime: 0.2
+--- !u!114 &1556712390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556712378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0de6def28664189bd3a7e94c8d06231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joysticCanvas: {fileID: 8223279657184961927, guid: 9b4a394f65edb4b4abb78875e45c23ac, type: 3}
 --- !u!1 &1863783723
 GameObject:
   m_ObjectHideFlags: 0

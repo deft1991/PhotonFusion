@@ -13,8 +13,9 @@ using UnityEngine;
 [RequireComponent(typeof(AudioManager))]
 [RequireComponent(typeof(MissionManager))]
 [RequireComponent(typeof(DataManager))]
-[RequireComponent(typeof(BasicSpawnerManager))]
 [RequireComponent(typeof(ZzzLogManager))]
+[RequireComponent(typeof(JoysticManager))]
+[RequireComponent(typeof(BasicSpawnerManager))]
 public class Managers : MonoBehaviour
 {
     public static PlayerManager Player { get; private set; }
@@ -24,8 +25,9 @@ public class Managers : MonoBehaviour
     public static AudioManager Audio { get; private set; }
     public static MissionManager Mission { get; private set; }
     public static DataManager Data { get; private set; }
-    public static BasicSpawnerManager BasicSpawner { get; private set; }
     public static ZzzLogManager ZzzLog { get; private set; }
+    public static JoysticManager Joystic { get; private set; }
+    public static BasicSpawnerManager BasicSpawner { get; private set; }
 
     /*
      * List of all IGameManagers
@@ -47,8 +49,9 @@ public class Managers : MonoBehaviour
         Audio = GetComponent<AudioManager>();
         Mission = GetComponent<MissionManager>();
         Data = GetComponent<DataManager>();
-        BasicSpawner = GetComponent<BasicSpawnerManager>();
         ZzzLog = GetComponent<ZzzLogManager>();
+        Joystic = GetComponent<JoysticManager>();
+        BasicSpawner = GetComponent<BasicSpawnerManager>();
 
         _startSequence = new List<IGameManager>();
         _startSequence.Add(Player);
@@ -57,8 +60,9 @@ public class Managers : MonoBehaviour
         _startSequence.Add(Images);
         _startSequence.Add(Audio);
         _startSequence.Add(Mission);
-        _startSequence.Add(BasicSpawner);
         _startSequence.Add(ZzzLog);
+        _startSequence.Add(Joystic);
+        _startSequence.Add(BasicSpawner);
         /*
          * MUST be last manager in loading
          */

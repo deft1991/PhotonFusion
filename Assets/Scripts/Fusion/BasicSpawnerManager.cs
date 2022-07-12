@@ -10,7 +10,8 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
 {
     [SerializeField] private NetworkPrefabRef _playerPolicemanPrefab;
     [SerializeField] private NetworkPrefabRef _playerHooliganPrefab;
-    private OnScreenStick prefabJoysStick;
+    
+    private OnScreenStick _onScreenStick;
 
     private NetworkRunner _runner;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
@@ -20,18 +21,58 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
     private bool _mouseButton0;
     private bool _mouseButton1;
     
+    /**
+     * Start ONLY after JoysticManager, because we use it
+     */
     public void Startup(NetworkService networkService)
     {
         Debug.Log("Data manager ProcessStartInfo...");
         
+        _onScreenStick = FindObjectOfType<OnScreenStick>();
         Status = ManagerStatus.Started;
     }
     
-   
+    int TapCount;
+    public float MaxDubbleTapTime = .2f;
+    float NewTime;
+    
+    void Start () {
+        TapCount = 0;
+    }
+    
     private void Update()
     {
-        _mouseButton0 = _mouseButton0 | Input.GetMouseButton(0);
-        _mouseButton0 = _mouseButton1 | Input.GetMouseButton(1);
+        // _mouseButton0 = _mouseButton0 | Input.GetMouseButton(0);
+        // _mouseButton1 = _mouseButton1 | Input.GetMouseButton(1);
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase != TouchPhase.Moved && Input.touchCount == 1) {
+            Touch touch = Input.GetTouch(0);
+             
+            if (touch.phase == TouchPhase.Ended) {
+                TapCount += 1;
+            }
+ 
+            if (TapCount == 1) {
+                 
+                NewTime = Time.time + MaxDubbleTapTime;
+            }else if(TapCount == 2 && Time.time <= NewTime){
+                 
+                //Whatever you want after a dubble tap    
+                print ("Double tap");
+                TapCount = 0;
+            }
+ 
+        }
+        if (Time.time > NewTime) {
+            if (TapCount > 1)
+            {
+                _mouseButton1 = true;
+            } else if (TapCount == 1)
+            {
+                _mouseButton0 = true;
+            }
+            TapCount = 0;
+        }
     }
     
     async void StartGame(GameMode gameMode)
@@ -80,7 +121,7 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
                 StartGame(GameMode.Host);
             }
 
-            if (GUI.Button(new Rect(0, 40, 400, 100), "Join"))
+            if (GUI.Button(new Rect(0, 120, 400, 100), "Join"))
             {
                 StartGame(GameMode.Client);
             }
@@ -164,8 +205,7 @@ public class BasicSpawnerManager : MonoBehaviour, INetworkRunnerCallbacks, IGame
         }
         _mouseButton1 = false;
         
-        // prefabJoysStick.SetCallback(ChangeDirection);
-        // data.direction += _directionFromJoystick;
+        data.direction += _onScreenStick.Direction;
         
         input.Set(data);
     }

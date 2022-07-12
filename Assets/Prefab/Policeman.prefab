@@ -32,7 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1919347705802146276}
+  - {fileID: 8121588376492746329}
   - {fileID: 7079416678290120447}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   InterpolationSpace: 0
-  InterpolationTarget: {fileID: 1919347705802146276}
+  InterpolationTarget: {fileID: 8121588376492746329}
   InterpolateErrorCorrection: 1
   InterpolatedErrorCorrectionSettings:
     MinRate: 3.3
@@ -176,7 +176,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1001 &2101032497624196623
+--- !u!1001 &8592609584847765938
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -231,14 +231,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Policeman
       objectReference: {fileID: 0}
-    - target: {fileID: 5866666021909216657, guid: 9f69fced75c7b4067a1eb8db194c890b, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 89bb30b70eea2470f87ba30f6c8cb32f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f69fced75c7b4067a1eb8db194c890b, type: 3}
---- !u!4 &1919347705802146276 stripped
+--- !u!4 &8121588376492746329 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9f69fced75c7b4067a1eb8db194c890b, type: 3}
-  m_PrefabInstance: {fileID: 2101032497624196623}
+  m_PrefabInstance: {fileID: 8592609584847765938}
   m_PrefabAsset: {fileID: 0}
